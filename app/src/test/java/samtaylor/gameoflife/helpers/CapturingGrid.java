@@ -11,6 +11,17 @@ public class CapturingGrid implements Grid
     public int setCellValueInvokedWithValue = -1;
 
     @Override
+    public void seed() {
+        fail();
+    }
+
+    @Override
+    public boolean isAlive() {
+        fail();
+        return false;
+    }
+
+    @Override
     public boolean isAlive(int x, int y) {
         fail();
         return false;

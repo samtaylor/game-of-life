@@ -10,7 +10,11 @@ import rules.RuleTwo;
 
 public class GamePresenter
 {
+    private static final int FPS = 1;
+
     private int tickCount = 0;
+
+    private boolean running = false;
 
     private Grid grid;
 
@@ -22,15 +26,43 @@ public class GamePresenter
         this.renderer = renderer;
     }
 
-    public void seed()
+    public void start()
     {
         this.grid.seed();
-
         this.renderer.render( this.grid, this.tickCount );
+
+        this.running = true;
+        new Thread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while( running && grid.isAlive() )
+                {
+                    long elapsedTime = tick();
+
+                    long sleepTime = ( 1000 / FPS ) - elapsedTime;
+
+                    renderer.render( grid, tickCount );
+
+                    try
+                    {
+                        Thread.sleep( sleepTime );
+                    } catch ( InterruptedException ignored ) {}
+                }
+            }
+        }).start();
     }
 
-    public void tick()
+    public void stop()
     {
+        this.running = false;
+    }
+
+    public long tick()
+    {
+        long start = System.currentTimeMillis();
+
         this.tickCount ++;
 
         int gridWidth = this.grid.getWidth();
@@ -56,6 +88,6 @@ public class GamePresenter
 
         newGrid.copy( this.grid );
 
-        this.renderer.render( this.grid, this.tickCount );
+        return System.currentTimeMillis() - start;
     }
 }

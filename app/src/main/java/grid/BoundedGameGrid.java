@@ -34,6 +34,22 @@ public class BoundedGameGrid implements Grid
     }
 
     @Override
+    public boolean isAlive()
+    {
+        int gridTotal = 0;
+
+        for ( int y = 0; y < this.height; y ++ )
+        {
+            for ( int x = 0; x < this.width; x ++ )
+            {
+                gridTotal += this.grid[ x ][ y ];
+            }
+        }
+
+        return gridTotal != 0;
+    }
+
+    @Override
     public boolean isAlive( int x, int y )
     {
         return this.grid[ x ][ y ] == 1;

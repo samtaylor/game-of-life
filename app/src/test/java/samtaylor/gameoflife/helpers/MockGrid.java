@@ -15,6 +15,17 @@ public class MockGrid implements Grid
     }
 
     @Override
+    public void seed() {
+        fail();
+    }
+
+    @Override
+    public boolean isAlive() {
+        fail();
+        return false;
+    }
+
+    @Override
     public boolean isAlive(int x, int y) {
         return this.isAlive;
     }

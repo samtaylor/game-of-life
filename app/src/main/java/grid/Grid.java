@@ -8,6 +8,7 @@ public interface Grid
 
     void seed();
 
+    boolean isAlive();
     boolean isAlive(int x, int y );
 
     int getNumberOfLiveChildren(int x, int y );

@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+    private GamePresenter gamePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +110,16 @@ public class MainActivity extends AppCompatActivity {
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        GamePresenter gamePresenter = new GamePresenterFactory().create( 10, 10 );
-        gamePresenter.seed();
-        gamePresenter.tick();
-        gamePresenter.tick();
+        this.gamePresenter = new GamePresenterFactory().create(10, 10);
+        this.gamePresenter.start();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        this.gamePresenter.stop();
     }
 
     @Override
