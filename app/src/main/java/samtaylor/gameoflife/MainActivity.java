@@ -5,7 +5,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import samtaylor.gameoflife.presenter.GamePresenter;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private View mControlsView;
+
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -61,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
             if (actionBar != null) {
                 actionBar.show();
             }
-            mControlsView.setVisibility(View.VISIBLE);
+
+            if (AUTO_HIDE)
+            {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
         }
     };
     private boolean mVisible;
@@ -71,20 +77,7 @@ public class MainActivity extends AppCompatActivity {
             hide();
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
+
     private GamePresenter gamePresenter;
 
     @Override
@@ -94,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -105,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
-
         this.gamePresenter = new GamePresenterFactory().create(10, 10);
-        this.gamePresenter.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.gamePresenter.resume();
     }
 
     @Override
@@ -119,6 +111,12 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onPause();
 
+        this.gamePresenter.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         this.gamePresenter.stop();
     }
 
@@ -146,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -173,5 +170,45 @@ public class MainActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = this.getMenuInflater();
+        inflater.inflate( R.menu.main, menu );
+
+        return super.onCreateOptionsMenu( menu );
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (AUTO_HIDE) {
+            delayedHide(AUTO_HIDE_DELAY_MILLIS);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        if (AUTO_HIDE) {
+            delayedHide(AUTO_HIDE_DELAY_MILLIS);
+        }
+
+        switch ( item.getItemId() )
+        {
+            case R.id.menu_refresh:
+            {
+                this.gamePresenter.start();
+
+                return true;
+            }
+
+            default:
+            {
+                return super.onOptionsItemSelected(item);
+            }
+        }
     }
 }

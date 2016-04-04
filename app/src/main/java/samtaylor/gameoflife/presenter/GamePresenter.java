@@ -1,5 +1,8 @@
 package samtaylor.gameoflife.presenter;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import samtaylor.gameoflife.grid.BoundedGameGrid;
 import samtaylor.gameoflife.grid.Grid;
 import samtaylor.gameoflife.renderer.Renderer;
@@ -15,10 +18,12 @@ public class GamePresenter
     private int tickCount = 0;
 
     private boolean running = false;
+    private boolean paused = false;
 
     private Grid grid;
 
     private Renderer renderer;
+    private Thread gameThread;
 
     protected GamePresenter( Grid grid, Renderer renderer )
     {
@@ -26,32 +31,56 @@ public class GamePresenter
         this.renderer = renderer;
     }
 
+    public void resume()
+    {
+        if ( this.gameThread == null )
+        {
+            this.start();
+        }
+        else
+        {
+            this.paused = false;
+        }
+    }
+
+    public void pause()
+    {
+        this.paused = true;
+    }
+
     public void start()
     {
+        this.tickCount = 0;
         this.grid.seed();
         this.renderer.render( this.grid, this.tickCount );
 
         this.running = true;
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while( running && grid.isAlive() )
-                {
-                    long elapsedTime = tick();
+        this.paused = false;
 
-                    long sleepTime = ( 1000 / FPS ) - elapsedTime;
+        if ( this.gameThread == null ) {
+            this.gameThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (running && grid.isAlive()) {
+                        long sleepTime = (1000 / FPS);
 
-                    renderer.render( grid, tickCount );
+                        if (!paused) {
+                            long elapsedTime = tick();
 
-                    try
-                    {
-                        Thread.sleep( sleepTime );
-                    } catch ( InterruptedException ignored ) {}
+                            sleepTime = (1000 / FPS) - elapsedTime;
+
+                            renderer.render(grid, tickCount);
+                        }
+
+                        try {
+                            Thread.sleep(sleepTime);
+                        } catch (InterruptedException ignored) {
+                        }
+                    }
                 }
-            }
-        }).start();
+            });
+            this.gameThread.start();
+        }
     }
 
     public void stop()
