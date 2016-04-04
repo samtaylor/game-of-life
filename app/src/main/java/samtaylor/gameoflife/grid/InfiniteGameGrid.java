@@ -2,19 +2,19 @@ package samtaylor.gameoflife.grid;
 
 import java.util.Random;
 
-public class BoundedGameGrid implements Grid
+public class InfiniteGameGrid implements Grid
 {
     private int [][] grid;
 
     private int width;
     private int height;
 
-    public BoundedGameGrid( int width, int height )
+    public InfiniteGameGrid( int width, int height )
     {
+        this.grid = new int[ width ][ height ];
+
         this.width = width;
         this.height = height;
-
-        this.grid = new int[ width ][ height ];
     }
 
     @Override
@@ -34,8 +34,7 @@ public class BoundedGameGrid implements Grid
     }
 
     @Override
-    public boolean isAlive()
-    {
+    public boolean isAlive() {
         int gridTotal = 0;
 
         for ( int y = 0; y < this.height; y ++ )
@@ -50,14 +49,12 @@ public class BoundedGameGrid implements Grid
     }
 
     @Override
-    public boolean isAlive( int x, int y )
-    {
+    public boolean isAlive(int x, int y) {
         return this.grid[ x ][ y ] == 1;
     }
 
     @Override
-    public int getNumberOfLiveChildren( int x, int y )
-    {
+    public int getNumberOfLiveChildren(int x, int y) {
         int liveNeighbourCount = 0;
 
         liveNeighbourCount += this.getCellValue( x - 1, y - 1 );
@@ -75,8 +72,13 @@ public class BoundedGameGrid implements Grid
     }
 
     @Override
-    public int getCellValue( int x, int y )
-    {
+    public int getCellValue(int x, int y) {
+
+        if ( x < 0 ) x += this.width;
+        if ( y < 0 ) y += this.height;
+        if ( x >= this.width ) x -= this.width;
+        if ( y >= this.height ) y -= this.height;
+
         if ( x < 0 || x >= this.width )
         {
             return 0;
@@ -92,26 +94,22 @@ public class BoundedGameGrid implements Grid
     }
 
     @Override
-    public int getWidth()
-    {
+    public int getWidth() {
         return this.width;
     }
 
     @Override
-    public int getHeight()
-    {
+    public int getHeight() {
         return this.height;
     }
 
     @Override
-    public void setCellValue( int x, int y, int value )
-    {
+    public void setCellValue(int x, int y, int value) {
         this.grid[ x ][ y ] = value;
     }
 
     @Override
-    public void copy( Grid toGrid )
-    {
+    public void copy(Grid toGrid) {
         for ( int y = 0; y < this.height; y ++ )
         {
             for ( int x = 0; x < this.width; x ++ )

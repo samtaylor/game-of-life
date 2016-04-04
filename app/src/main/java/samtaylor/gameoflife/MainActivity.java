@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import samtaylor.gameoflife.grid.BoundedGameGrid;
+import samtaylor.gameoflife.grid.InfiniteGameGrid;
 import samtaylor.gameoflife.presenter.GamePresenter;
 import samtaylor.gameoflife.presenter.GamePresenterBuilder;
 import samtaylor.gameoflife.renderer.SurfaceViewRenderer;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity
                     int height = surfaceView.getHeight();
 
                     gamePresenter = new GamePresenterBuilder()
-                            .with(new BoundedGameGrid( width / SurfaceViewRenderer.CELL_SIZE, height / SurfaceViewRenderer.CELL_SIZE ) )
+                            .with(new InfiniteGameGrid( width / SurfaceViewRenderer.CELL_SIZE, height / SurfaceViewRenderer.CELL_SIZE ) )
                             .with(new SurfaceViewRenderer(tickCount, surfaceView))
                             .build();
                     gamePresenter.resume();
