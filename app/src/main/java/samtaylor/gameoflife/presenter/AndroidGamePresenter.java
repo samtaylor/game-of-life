@@ -8,7 +8,7 @@ import samtaylor.gameoflife.rules.RuleOne;
 import samtaylor.gameoflife.rules.RuleThree;
 import samtaylor.gameoflife.rules.RuleTwo;
 
-public class AndroidGamePresenter
+public class AndroidGamePresenter implements GamePresenter
 {
     private static final int FPS = 8;
 
@@ -28,6 +28,7 @@ public class AndroidGamePresenter
         this.renderer = renderer;
     }
 
+    @Override
     public void resume()
     {
         if ( this.gameThread == null )
@@ -40,11 +41,13 @@ public class AndroidGamePresenter
         }
     }
 
+    @Override
     public void pause()
     {
         this.paused = true;
     }
 
+    @Override
     public void start()
     {
         this.tickCount = 0;
@@ -80,11 +83,13 @@ public class AndroidGamePresenter
         }
     }
 
+    @Override
     public void stop()
     {
         this.running = false;
     }
 
+    @Override
     public long tick()
     {
         long start = System.currentTimeMillis();
