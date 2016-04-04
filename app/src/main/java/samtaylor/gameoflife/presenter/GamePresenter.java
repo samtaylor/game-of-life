@@ -5,7 +5,7 @@ public interface GamePresenter
     void resume();
     void pause();
     void start();
-    void stop();
+    void destroy();
 
     long tick();
 }

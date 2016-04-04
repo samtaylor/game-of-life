@@ -13,6 +13,23 @@ public class MainPresenter
             }
         });
 
+        mainScene.addLifecycleListener(new MainScene.LifecycleListener() {
+            @Override
+            public void paused() {
+                gamePresenter.pause();
+            }
+
+            @Override
+            public void resumed() {
+                gamePresenter.resume();
+            }
+
+            @Override
+            public void destroyed() {
+                gamePresenter.destroy();
+            }
+        });
+
         gamePresenter.start();
     }
 

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements MainScene
     private AndroidGamePresenter gamePresenter;
 
     private MenuItemClickListener refreshMenuItemClickListener;
+    private LifecycleListener lifecycleListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,10 @@ public class MainActivity extends AppCompatActivity implements MainScene
                     new MainPresenter( MainActivity.this, gamePresenter );
                 }
             });
-
+        }
+        else
+        {
+            this.lifecycleListener.resumed();
         }
     }
 
@@ -58,17 +62,14 @@ public class MainActivity extends AppCompatActivity implements MainScene
     {
         super.onPause();
 
-        if ( this.gamePresenter != null ) {
-            this.gamePresenter.pause();
-        }
+        this.lifecycleListener.paused();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if ( this.gamePresenter != null ) {
-            this.gamePresenter.stop();
-        }
+
+        this.lifecycleListener.destroyed();
     }
 
     @Override
@@ -103,5 +104,10 @@ public class MainActivity extends AppCompatActivity implements MainScene
     public void addRefreshMenuItemClickListener( MenuItemClickListener menuItemClickListener )
     {
         this.refreshMenuItemClickListener = menuItemClickListener;
+    }
+
+    @Override
+    public void addLifecycleListener(LifecycleListener lifecycleListener) {
+        this.lifecycleListener = lifecycleListener;
     }
 }

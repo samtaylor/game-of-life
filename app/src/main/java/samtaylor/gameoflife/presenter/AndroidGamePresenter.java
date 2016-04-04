@@ -84,7 +84,7 @@ public class AndroidGamePresenter implements GamePresenter
     }
 
     @Override
-    public void stop()
+    public void destroy()
     {
         this.running = false;
     }

@@ -30,6 +30,16 @@ public class MainPresenterShould
     }
 
     @Test
+    public void registerForLifecycleEvents()
+    {
+        CapturingMainScene mainScene = new CapturingMainScene();
+
+        new MainPresenter( mainScene, new CapturingGamePresenter() );
+
+        assertThat( mainScene.addLifecycleListenerInvoked, is( true ) );
+    }
+
+    @Test
     public void startTheGamePresenter_whenTheRefreshMenuItemIsClicked()
     {
         CapturingMainScene mainScene = new CapturingMainScene();
@@ -41,11 +51,49 @@ public class MainPresenterShould
         assertThat( capturingGamePresenter.startInvoked, is( true ) );
     }
 
+    @Test
+    public void pauseTheGamePresenter_whenTheActivityIsPaused()
+    {
+        CapturingMainScene mainScene = new CapturingMainScene();
+        CapturingGamePresenter capturingGamePresenter = new CapturingGamePresenter();
+
+        new MainPresenter( mainScene, capturingGamePresenter );
+        mainScene.lifecycleListener.paused();
+
+        assertThat( capturingGamePresenter.pauseInvoked, is( true ) );
+    }
+
+    @Test
+    public void resumeTheGamePresenter_whenTheActivityIsResumed()
+    {
+        CapturingMainScene mainScene = new CapturingMainScene();
+        CapturingGamePresenter capturingGamePresenter = new CapturingGamePresenter();
+
+        new MainPresenter( mainScene, capturingGamePresenter );
+        mainScene.lifecycleListener.resumed();
+
+        assertThat( capturingGamePresenter.resumeInvoked, is( true ) );
+    }
+
+    @Test
+    public void destroyTheGamePresenter_whenTheActivityIsDestroyed()
+    {
+        CapturingMainScene mainScene = new CapturingMainScene();
+        CapturingGamePresenter capturingGamePresenter = new CapturingGamePresenter();
+
+        new MainPresenter( mainScene, capturingGamePresenter );
+        mainScene.lifecycleListener.destroyed();
+
+        assertThat( capturingGamePresenter.destroyInvoked, is( true ) );
+    }
+
     private static class CapturingMainScene implements MainScene
     {
         private boolean addRefreshMenuItemClickListenerInvoked;
+        private boolean addLifecycleListenerInvoked;
 
         private MenuItemClickListener menuItemClickListener;
+        private LifecycleListener lifecycleListener;
 
         @Override
         public void addRefreshMenuItemClickListener( MenuItemClickListener menuItemClickListener )
@@ -54,20 +102,32 @@ public class MainPresenterShould
 
             this.menuItemClickListener = menuItemClickListener;
         }
+
+        @Override
+        public void addLifecycleListener( LifecycleListener lifecycleListener )
+        {
+            this.addLifecycleListenerInvoked = true;
+
+            this.lifecycleListener = lifecycleListener;
+        }
     }
 
     private static class CapturingGamePresenter implements GamePresenter
     {
         private boolean startInvoked;
+        private boolean pauseInvoked;
+        private boolean resumeInvoked;
+        private boolean destroyInvoked;
 
         @Override
         public void resume() {
-
+            this.resumeInvoked = true;
         }
 
         @Override
-        public void pause() {
-
+        public void pause()
+        {
+            this.pauseInvoked = true;
         }
 
         @Override
@@ -77,8 +137,8 @@ public class MainPresenterShould
         }
 
         @Override
-        public void stop() {
-
+        public void destroy() {
+            this.destroyInvoked = true;
         }
 
         @Override
