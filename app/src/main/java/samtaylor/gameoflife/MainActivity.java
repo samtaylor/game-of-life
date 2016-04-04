@@ -13,9 +13,11 @@ import samtaylor.gameoflife.presenter.AndroidGamePresenter;
 import samtaylor.gameoflife.presenter.AndroidGamePresenterBuilder;
 import samtaylor.gameoflife.renderer.SurfaceViewRenderer;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements MainScene
 {
     private AndroidGamePresenter gamePresenter;
+
+    private MenuItemClickListener refreshMenuItemClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,8 @@ public class MainActivity extends AppCompatActivity
                             .with(new InfiniteGameGrid( width / SurfaceViewRenderer.CELL_SIZE, height / SurfaceViewRenderer.CELL_SIZE ) )
                             .with(new SurfaceViewRenderer(surfaceView))
                             .build();
-                    gamePresenter.resume();
+
+                    new MainPresenter( MainActivity.this, gamePresenter );
                 }
             });
 
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.menu_refresh:
             {
-                this.gamePresenter.start();
+                this.refreshMenuItemClickListener.clicked();
 
                 return true;
             }
@@ -94,5 +97,11 @@ public class MainActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    @Override
+    public void addRefreshMenuItemClickListener( MenuItemClickListener menuItemClickListener )
+    {
+        this.refreshMenuItemClickListener = menuItemClickListener;
     }
 }
