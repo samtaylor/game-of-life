@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
 
 import samtaylor.gameoflife.grid.Grid;
 
@@ -15,13 +14,11 @@ public class SurfaceViewRenderer implements Renderer, SurfaceHolder.Callback
     private static final int ORIGIN_X = 0;
     private static final int ORIGIN_Y = 0;
 
-    private final TextView tickCount;
     private final SurfaceView surfaceView;
     private boolean readyToDraw;
 
-    public SurfaceViewRenderer( TextView tickCount, SurfaceView surfaceView )
+    public SurfaceViewRenderer( SurfaceView surfaceView )
     {
-        this.tickCount = tickCount;
         this.surfaceView = surfaceView;
 
         surfaceView.getHolder().addCallback( this );

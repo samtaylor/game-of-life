@@ -7,9 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
-import android.widget.TextView;
 
-import samtaylor.gameoflife.grid.BoundedGameGrid;
 import samtaylor.gameoflife.grid.InfiniteGameGrid;
 import samtaylor.gameoflife.presenter.GamePresenter;
 import samtaylor.gameoflife.presenter.GamePresenterBuilder;
@@ -31,7 +29,6 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         if ( this.gamePresenter == null ) {
-            final TextView tickCount = (TextView) this.findViewById(R.id.tick_count);
             final SurfaceView surfaceView = (SurfaceView) this.findViewById(R.id.surface_view);
 
             surfaceView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
                     gamePresenter = new GamePresenterBuilder()
                             .with(new InfiniteGameGrid( width / SurfaceViewRenderer.CELL_SIZE, height / SurfaceViewRenderer.CELL_SIZE ) )
-                            .with(new SurfaceViewRenderer(tickCount, surfaceView))
+                            .with(new SurfaceViewRenderer(surfaceView))
                             .build();
                     gamePresenter.resume();
                 }
