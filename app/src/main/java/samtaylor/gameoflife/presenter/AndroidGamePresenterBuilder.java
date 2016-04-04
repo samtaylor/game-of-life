@@ -5,26 +5,26 @@ import samtaylor.gameoflife.grid.Grid;
 import samtaylor.gameoflife.renderer.ConsoleRenderer;
 import samtaylor.gameoflife.renderer.Renderer;
 
-public class GamePresenterBuilder
+public class AndroidGamePresenterBuilder
 {
     private Grid grid;
     private Renderer renderer;
 
-    public GamePresenterBuilder with( Grid grid )
+    public AndroidGamePresenterBuilder with(Grid grid )
     {
         this.grid = grid;
 
         return this;
     }
 
-    public GamePresenterBuilder with( Renderer renderer )
+    public AndroidGamePresenterBuilder with(Renderer renderer )
     {
         this.renderer = renderer;
 
         return this;
     }
 
-    public GamePresenter build()
+    public AndroidGamePresenter build()
     {
         if ( this.grid == null )
         {
@@ -36,6 +36,6 @@ public class GamePresenterBuilder
             this.renderer = new ConsoleRenderer();
         }
 
-        return new GamePresenter( this.grid, this.renderer );
+        return new AndroidGamePresenter( this.grid, this.renderer );
     }
 }

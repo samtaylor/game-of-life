@@ -8,7 +8,7 @@ import samtaylor.gameoflife.rules.RuleOne;
 import samtaylor.gameoflife.rules.RuleThree;
 import samtaylor.gameoflife.rules.RuleTwo;
 
-public class GamePresenter
+public class AndroidGamePresenter
 {
     private static final int FPS = 8;
 
@@ -22,7 +22,7 @@ public class GamePresenter
     private Renderer renderer;
     private Thread gameThread;
 
-    protected GamePresenter( Grid grid, Renderer renderer )
+    protected AndroidGamePresenter(Grid grid, Renderer renderer )
     {
         this.grid = grid;
         this.renderer = renderer;

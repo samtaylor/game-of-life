@@ -9,13 +9,13 @@ import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
 
 import samtaylor.gameoflife.grid.InfiniteGameGrid;
-import samtaylor.gameoflife.presenter.GamePresenter;
-import samtaylor.gameoflife.presenter.GamePresenterBuilder;
+import samtaylor.gameoflife.presenter.AndroidGamePresenter;
+import samtaylor.gameoflife.presenter.AndroidGamePresenterBuilder;
 import samtaylor.gameoflife.renderer.SurfaceViewRenderer;
 
 public class MainActivity extends AppCompatActivity
 {
-    private GamePresenter gamePresenter;
+    private AndroidGamePresenter gamePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
                     int width = surfaceView.getWidth();
                     int height = surfaceView.getHeight();
 
-                    gamePresenter = new GamePresenterBuilder()
+                    gamePresenter = new AndroidGamePresenterBuilder()
                             .with(new InfiniteGameGrid( width / SurfaceViewRenderer.CELL_SIZE, height / SurfaceViewRenderer.CELL_SIZE ) )
                             .with(new SurfaceViewRenderer(surfaceView))
                             .build();
