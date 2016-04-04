@@ -1,8 +1,5 @@
 package samtaylor.gameoflife.presenter;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import samtaylor.gameoflife.grid.BoundedGameGrid;
 import samtaylor.gameoflife.grid.Grid;
 import samtaylor.gameoflife.renderer.Renderer;
@@ -13,7 +10,7 @@ import samtaylor.gameoflife.rules.RuleTwo;
 
 public class GamePresenter
 {
-    private static final int FPS = 1;
+    private static final int FPS = 8;
 
     private int tickCount = 0;
 
@@ -61,10 +58,10 @@ public class GamePresenter
             this.gameThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    while (running && grid.isAlive()) {
+                    while (running) {
                         long sleepTime = (1000 / FPS);
 
-                        if (!paused) {
+                        if (!paused && grid.isAlive()) {
                             long elapsedTime = tick();
 
                             sleepTime = (1000 / FPS) - elapsedTime;

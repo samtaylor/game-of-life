@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class BoundedGameGrid implements Grid
 {
-    private static final int SEED_COUNT = 20;
-
     private int [][] grid;
 
     private int width;
@@ -23,8 +21,10 @@ public class BoundedGameGrid implements Grid
     public void seed()
     {
         Random random = new Random( System.currentTimeMillis() );
-        // initialise the grid
-        for ( int i = 0; i < SEED_COUNT; i ++ )
+
+        int seedCount = (int) (this.width * this.height * 0.1);
+
+        for ( int i = 0; i < seedCount; i ++ )
         {
             int x = random.nextInt( this.width );
             int y = random.nextInt( this.height );
