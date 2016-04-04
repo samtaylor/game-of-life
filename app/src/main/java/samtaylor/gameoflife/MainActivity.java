@@ -8,8 +8,8 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
-import presenter.GamePresenter;
-import presenter.GamePresenterFactory;
+import samtaylor.gameoflife.presenter.GamePresenter;
+import samtaylor.gameoflife.presenter.GamePresenterFactory;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

@@ -1,6 +1,6 @@
-package renderer;
+package samtaylor.gameoflife.renderer;
 
-import grid.Grid;
+import samtaylor.gameoflife.grid.Grid;
 
 public class ConsoleRenderer implements Renderer
 {

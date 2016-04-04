@@ -2,9 +2,6 @@ package samtaylor.gameoflife.grid;
 
 import org.junit.Test;
 
-import grid.BoundedGameGrid;
-import grid.Grid;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 

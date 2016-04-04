@@ -1,6 +1,6 @@
 package samtaylor.gameoflife.helpers;
 
-import grid.Grid;
+import samtaylor.gameoflife.grid.Grid;
 
 import static junit.framework.Assert.fail;
 

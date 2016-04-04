@@ -1,8 +1,7 @@
-package presenter;
+package samtaylor.gameoflife.presenter;
 
-import grid.BoundedGameGrid;
-import renderer.ConsoleRenderer;
-import renderer.Renderer;
+import samtaylor.gameoflife.grid.BoundedGameGrid;
+import samtaylor.gameoflife.renderer.ConsoleRenderer;
 
 public class GamePresenterFactory
 {

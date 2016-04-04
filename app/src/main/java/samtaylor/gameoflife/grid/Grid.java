@@ -1,4 +1,4 @@
-package grid;
+package samtaylor.gameoflife.grid;
 
 public interface Grid
 {

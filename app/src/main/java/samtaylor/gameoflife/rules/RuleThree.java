@@ -1,6 +1,6 @@
-package rules;
+package samtaylor.gameoflife.rules;
 
-import grid.Grid;
+import samtaylor.gameoflife.grid.Grid;
 
 public class RuleThree implements Rule
 {

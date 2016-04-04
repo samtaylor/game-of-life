@@ -3,8 +3,7 @@ package samtaylor.gameoflife.rules;
 import org.junit.Before;
 import org.junit.Test;
 
-import grid.Grid;
-import rules.RuleFour;
+import samtaylor.gameoflife.grid.Grid;
 import samtaylor.gameoflife.helpers.CapturingGrid;
 import samtaylor.gameoflife.helpers.MockGrid;
 

@@ -1,12 +1,12 @@
-package presenter;
+package samtaylor.gameoflife.presenter;
 
-import grid.BoundedGameGrid;
-import grid.Grid;
-import renderer.Renderer;
-import rules.RuleFour;
-import rules.RuleOne;
-import rules.RuleThree;
-import rules.RuleTwo;
+import samtaylor.gameoflife.grid.BoundedGameGrid;
+import samtaylor.gameoflife.grid.Grid;
+import samtaylor.gameoflife.renderer.Renderer;
+import samtaylor.gameoflife.rules.RuleFour;
+import samtaylor.gameoflife.rules.RuleOne;
+import samtaylor.gameoflife.rules.RuleThree;
+import samtaylor.gameoflife.rules.RuleTwo;
 
 public class GamePresenter
 {
